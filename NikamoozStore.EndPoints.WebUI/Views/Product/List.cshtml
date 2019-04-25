@@ -52,12 +52,9 @@
 
 
 </div>
-<div class="btn-group pull-right m-1">
-    @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
-    {
-        var className = i == Model.PagingInfo.CurrentPage ? "btn-primary" : "btn-secondary";
-        <a asp-action="List" asp-route-pageNumber="@i" class="btn @className">@i</a>
-    }
+<div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+     page-class-selected="btn-primary" 
+     class="btn-group pull-right m-1">
 </div>
-@*<div page-model="Model.PagingInfo"></div>*@
 
