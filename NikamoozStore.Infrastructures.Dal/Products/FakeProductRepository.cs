@@ -1,12 +1,28 @@
-﻿using NikamoozStore.Core.Contracts.Products;
+﻿using Microsoft.EntityFrameworkCore;
+using NikamoozStore.Core.Contracts.Products;
 using NikamoozStore.Core.Domain.Categories;
 using NikamoozStore.Core.Domain.Products;
+using NikamoozStore.Infrastructures.Dal.Commons;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NikamoozStore.Infrastructures.Dal.Products
 {
+    public class EfProductRepository : ProductRepository
+    {
+        private readonly NikamoozStoreContext _ctx;
+
+        public EfProductRepository(NikamoozStoreContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public List<Product> GetProducts()
+        {
+            return _ctx.Products.Include(c => c.Category).ToList();
+        }
+    }
     public class FakeProductRepository : ProductRepository
     {
         private List<Product> _products = new List<Product>
