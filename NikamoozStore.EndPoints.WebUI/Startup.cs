@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NikamoozStore.Core.Contracts.Categories;
 using NikamoozStore.Core.Contracts.Products;
+using NikamoozStore.Infrastructures.Dal.Categories;
 using NikamoozStore.Infrastructures.Dal.Commons;
 using NikamoozStore.Infrastructures.Dal.Products;
 
@@ -27,6 +29,7 @@ namespace NikamoozStore.EndPoints.WebUI
             services.AddDbContext<NikamoozStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("storeDb")));
 
             services.AddScoped<ProductRepository, EfProductRepository>();
+            services.AddScoped<CategoryRepository, EfCategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,16 +41,41 @@ namespace NikamoozStore.EndPoints.WebUI
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-             name: null,
-             template: "Page{pageNumber:int}",
-             defaults: new
-             {
-                 controller = "Product",
-                 action = "List",
-                 productPage = 1
-             }
-             );
-                routes.MapRoute(name: null, template: "{controller=product}/{action=list}/{id?}");
+                name: null,
+                template: "{category}/Page{pageNumber:int}",
+                defaults: new { controller = "Product", action = "List" }
+                );
+
+                routes.MapRoute(
+                name: null,
+                template: "Page{pageNumber:int}",
+                defaults: new
+                {
+                    controller = "Product",
+                    action = "List",
+                    productPage = 1
+                }
+                );
+                routes.MapRoute(
+                name: null,
+                template: "{category}",
+                defaults: new
+                {
+                    controller = "Product",
+                    action = "List",
+                    productPage = 1
+                }
+                );
+                routes.MapRoute(
+                name: null,
+                template: "",
+                defaults: new
+                {
+                    controller = "Product",
+                    action = "List",
+                    productPage = 1
+                });
+                routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
         }
     }

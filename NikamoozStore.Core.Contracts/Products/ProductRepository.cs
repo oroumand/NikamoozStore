@@ -7,7 +7,7 @@ namespace NikamoozStore.Core.Contracts.Products
 {
     public interface ProductRepository
     {
-        int TotalCount();
-        List<Product> GetProducts(int pageSize = 4, int pageNumber = 1); 
+        int TotalCount(string category);
+        List<Product> GetProducts(string category,int pageSize = 4, int pageNumber = 1); 
     }
 }
