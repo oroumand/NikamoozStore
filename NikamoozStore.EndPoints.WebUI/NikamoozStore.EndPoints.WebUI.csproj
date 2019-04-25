@@ -23,8 +23,4 @@
     <ProjectReference Include="..\NikamoozStore.Services.ApplicatoinServices\NikamoozStore.Services.ApplicatoinServices.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

@@ -36,8 +36,19 @@ namespace NikamoozStore.EndPoints.WebUI
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseMvc(routes =>
-            routes.MapRoute(name: null, template: "{controller=product}/{action=list}/{id?}")
-            );
+            {
+                routes.MapRoute(
+             name: null,
+             template: "Page{pageNumber:int}",
+             defaults: new
+             {
+                 controller = "Product",
+                 action = "List",
+                 productPage = 1
+             }
+             );
+                routes.MapRoute(name: null, template: "{controller=product}/{action=list}/{id?}");
+            });
         }
     }
 }
