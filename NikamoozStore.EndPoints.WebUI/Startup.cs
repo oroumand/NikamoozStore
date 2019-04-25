@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using NikamoozStore.Core.Contracts.Products;
+using NikamoozStore.Infrastructures.Dal.Products;
 
 namespace NikamoozStore.EndPoints.WebUI
 {
@@ -16,6 +18,7 @@ namespace NikamoozStore.EndPoints.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<ProductRepository, FakeProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -24,7 +27,9 @@ namespace NikamoozStore.EndPoints.WebUI
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            routes.MapRoute(name: null, template: "{controller=product}/{action=list}/{id?}")
+            );
         }
     }
 }
