@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NikamoozStore.Core.Contracts.Categories;
 using NikamoozStore.Core.Contracts.Orders;
 using NikamoozStore.Core.Contracts.Products;
+using NikamoozStore.EndPoints.AdminPanel.Models.Accounts;
 using NikamoozStore.Infrastructures.Dal.Categories;
 using NikamoozStore.Infrastructures.Dal.Commons;
 using NikamoozStore.Infrastructures.Dal.Orders;
@@ -50,6 +52,13 @@ namespace NikamoozStore.EndPoints.AdminPanel
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<OrderRepository, EfOrderRepository>();
 
+
+
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("storeUserDb")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppIdentityDbContext>()
+            .AddDefaultTokenProviders();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +78,7 @@ namespace NikamoozStore.EndPoints.AdminPanel
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

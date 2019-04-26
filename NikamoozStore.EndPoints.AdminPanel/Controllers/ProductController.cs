@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NikamoozStore.Core.Contracts.Categories;
 using NikamoozStore.Core.Contracts.Products;
@@ -13,6 +11,7 @@ using NikamoozStore.EndPoints.AdminPanel.Models.Products;
 
 namespace NikamoozStore.EndPoints.AdminPanel.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly CategoryRepository categoryRepository;
