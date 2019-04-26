@@ -15,6 +15,12 @@ namespace NikamoozStore.Infrastructures.Dal.Products
         {
             _ctx = ctx;
         }
+
+        public Product Find(int productId)
+        {
+            return _ctx.Products.Find(productId);
+        }
+
         public List<Product> GetProducts(string category,int pageSize = 4, int pageNumber = 1)
         {
             return _ctx.Products.Where(c => string.IsNullOrWhiteSpace(category) || c.Category.CategoryName == category).Include(c => c.Category).Skip(pageSize * (pageNumber -1)).Take(pageSize).ToList();

@@ -27,7 +27,8 @@ namespace NikamoozStore.EndPoints.WebUI
         {
             services.AddMvc();
             services.AddDbContext<NikamoozStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("storeDb")));
-
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddScoped<ProductRepository, EfProductRepository>();
             services.AddScoped<CategoryRepository, EfCategoryRepository>();
         }
@@ -38,6 +39,7 @@ namespace NikamoozStore.EndPoints.WebUI
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
