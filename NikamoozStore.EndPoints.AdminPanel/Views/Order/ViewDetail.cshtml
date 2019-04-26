@@ -1,0 +1,40 @@
+﻿@model NikamoozStore.Core.Domain.Orders.Order
+    <table>
+        <tr><th>Id:</th><td>@Model.OrderID</td></tr>
+        <tr><th>Name:</th><td>@Model.OrderID</td></tr>
+        <tr><th>Line01:</th><td>@Model.Line1</td></tr>
+        <tr><th>Payment Date:</th><td>@Model?.PaymentDate?.ToString("yyyy-mm-dd")</td></tr>
+        <tr><th>PaymentId:</th><td>@Model?.PaymentId</td></tr>
+    </table>
+
+<hr />
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Quantity</th>
+            <th>Item</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Subtotal</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var line in Model.Lines)
+        {
+            <tr>
+                <td class="text-center">@line.Quantity</td>
+                <td class="text-left">@line.Product.Name</td>
+                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">
+                    @((line.Quantity * line.Product.Price).ToString("c"))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<form asp-action="Ship" asp-controller="Order">
+    <input type="hidden" value="@Model.OrderID" name="id" />
+    <input type="submit" value="Ship" class="btn btn-danger"/>
+    <a asp-action="NewOrders" asp-controller="Order" class="btn btn-info">Return</a>
+</form>

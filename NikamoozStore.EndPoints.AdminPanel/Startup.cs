@@ -7,8 +7,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NikamoozStore.Core.Contracts.Categories;
+using NikamoozStore.Core.Contracts.Orders;
+using NikamoozStore.Core.Contracts.Products;
+using NikamoozStore.Infrastructures.Dal.Categories;
+using NikamoozStore.Infrastructures.Dal.Commons;
+using NikamoozStore.Infrastructures.Dal.Orders;
+using NikamoozStore.Infrastructures.Dal.Products;
 
 namespace NikamoozStore.EndPoints.AdminPanel
 {
@@ -33,6 +41,15 @@ namespace NikamoozStore.EndPoints.AdminPanel
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<NikamoozStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("storeDb")));
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddScoped<ProductRepository, EfProductRepository>();
+            services.AddScoped<CategoryRepository, EfCategoryRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<OrderRepository, EfOrderRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

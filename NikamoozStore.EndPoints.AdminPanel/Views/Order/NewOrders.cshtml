@@ -1,0 +1,25 @@
+﻿@model List<NikamoozStore.Core.Domain.Orders.OrderHeader>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Line01</th>
+        <th>Total Price</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.OrderID</td>
+            <td>@item.Name</td>
+            <td>@item.City</td>
+            <td>@item.State</td>
+            <td>@item.Line1</td>
+            <td>@item.TotalPrice.ToString("c")</td>
+            <td><a class="btn btn-info" asp-action="ViewDetail" asp-controller="Order" asp-route-id="@item.OrderID">View Detail</a></td>
+        </tr>
+    }
+</table>

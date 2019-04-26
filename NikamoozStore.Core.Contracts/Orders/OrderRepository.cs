@@ -11,5 +11,8 @@ namespace NikamoozStore.Core.Contracts.Orders
         Order Find(int id);
         void SetTransactionId(int orderId, string token);
         void SetPaymentDone(string factorNumber);
+
+        List<OrderHeader> Search(bool? Shipped);
+        void Ship(int orderId);
     }
 }

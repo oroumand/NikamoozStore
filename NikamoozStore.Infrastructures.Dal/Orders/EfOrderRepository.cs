@@ -33,6 +33,25 @@ namespace NikamoozStore.Infrastructures.Dal.Orders
             _ctx.SaveChanges();
         }
 
+        public List<OrderHeader> Search(bool? Shipped)
+        {
+            var orders = _ctx.Orders.Where(c => !Shipped.HasValue || c.Shipped == Shipped.Value).
+                Select(c => new OrderHeader
+                {
+                    City = c.City,
+                    State = c.State,
+                    Shipped = c.Shipped,
+                    Line1 = c.Line1,
+                    Name = c.Name,
+                    OrderID = c.OrderID,
+                    PaymentId = c.PaymentId,
+                    TotalPrice = c.Lines.Sum(d=>d.Product.Price),
+                    PaymentDate = c.PaymentDate,
+                    
+                }).ToList();
+            return orders;
+        }
+
         public void SetPaymentDone(string factorNumber)
         {
             var order = _ctx.Orders.Find(int.Parse(factorNumber));
@@ -49,6 +68,16 @@ namespace NikamoozStore.Infrastructures.Dal.Orders
             if (order != null)
             {
                 order.PaymentId = token;
+                _ctx.SaveChanges();
+            }
+        }
+
+        public void Ship(int orderId)
+        {
+            var order = _ctx.Orders.Find(orderId);
+            if (order != null)
+            {
+                order.Shipped = true;
                 _ctx.SaveChanges();
             }
         }
