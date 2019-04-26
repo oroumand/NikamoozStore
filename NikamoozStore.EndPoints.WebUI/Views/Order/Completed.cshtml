@@ -1,7 +1,22 @@
-﻿
+﻿@model NikamoozStore.Core.Domain.Orders.Order
 @{
     ViewData["Title"] = "Completed";
 }
 
-<h1>Completed</h1>
+<h2>Order Compelete</h2>
+<table>
+    <tr>
+        <td>OrderId</td>
+        <td>@Model.OrderID</td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td>@Model.Lines.Sum(c=>c.Product.Price)</td>
+    </tr>
+</table>
+
+<form asp-action="RequestPayment" asp-controller="Payment" method="post">
+    <input type="hidden" value="@Model.OrderID" name="orderId" />
+    <input type="submit" value="Compelete" />
+</form>
 

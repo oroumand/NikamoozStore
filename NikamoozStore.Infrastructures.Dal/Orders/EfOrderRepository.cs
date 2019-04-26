@@ -1,4 +1,5 @@
-﻿using NikamoozStore.Core.Contracts.Orders;
+﻿using Microsoft.EntityFrameworkCore;
+using NikamoozStore.Core.Contracts.Orders;
 using NikamoozStore.Core.Domain.Orders;
 using NikamoozStore.Infrastructures.Dal.Commons;
 using System;
@@ -17,6 +18,11 @@ namespace NikamoozStore.Infrastructures.Dal.Orders
             _ctx = ctx;
         }
 
+        public Order Find(int id)
+        {
+            return _ctx.Orders.Include(c => c.Lines).ThenInclude(d=>d.Product).FirstOrDefault(c => c.OrderID == id);
+        }
+
         public void SaveOrder(Order order)
         {
             _ctx.AttachRange(order.Lines.Select(l => l.Product));
@@ -25,6 +31,26 @@ namespace NikamoozStore.Infrastructures.Dal.Orders
                 _ctx.Orders.Add(order);
             }
             _ctx.SaveChanges();
+        }
+
+        public void SetPaymentDone(string factorNumber)
+        {
+            var order = _ctx.Orders.Find(int.Parse(factorNumber));
+            if (order != null)
+            {
+                order.PaymentDate = DateTime.Now;
+                _ctx.SaveChanges();
+            }
+        }
+
+        public void SetTransactionId(int orderId, string token)
+        {
+            var order = _ctx.Orders.Find(orderId);
+            if (order != null)
+            {
+                order.PaymentId = token;
+                _ctx.SaveChanges();
+            }
         }
     }
 }

@@ -10,12 +10,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NikamoozStore.Core.Contracts.Categories;
 using NikamoozStore.Core.Contracts.Orders;
+using NikamoozStore.Core.Contracts.Payments;
 using NikamoozStore.Core.Contracts.Products;
 using NikamoozStore.EndPoints.WebUI.Models.Carts;
 using NikamoozStore.Infrastructures.Dal.Categories;
 using NikamoozStore.Infrastructures.Dal.Commons;
 using NikamoozStore.Infrastructures.Dal.Orders;
 using NikamoozStore.Infrastructures.Dal.Products;
+using NikamoozStore.Services.ApplicatoinServices.Payments;
 
 namespace NikamoozStore.EndPoints.WebUI
 {
@@ -37,6 +39,7 @@ namespace NikamoozStore.EndPoints.WebUI
             services.AddScoped(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<OrderRepository, EfOrderRepository>();
+            services.AddScoped<PaymentService, PayIrPaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

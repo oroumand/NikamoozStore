@@ -8,5 +8,8 @@ namespace NikamoozStore.Core.Contracts.Orders
     public interface OrderRepository
     {
         void SaveOrder(Order order);
+        Order Find(int id);
+        void SetTransactionId(int orderId, string token);
+        void SetPaymentDone(string factorNumber);
     }
 }

@@ -36,18 +36,23 @@ namespace NikamoozStore.EndPoints.WebUI.Controllers
             {
                 order.Lines = cart.Lines.ToArray();
                 repository.SaveOrder(order);
-                TempData["OrderId"] = order.OrderID;
-                TempData["Price"] = order.Lines.Sum(c => c.Product.Price * c.Quantity);
-                return RedirectToAction(nameof(Completed));
+                //TempData["OrderId"] = order.OrderID;
+                //TempData["Price"] = order.Lines.Sum(c => c.Product.Price * c.Quantity);
+                return RedirectToAction(nameof(Completed),new { Id = order.OrderID});
             }
             else
             {
                 return View(order);
             }
         }
-        public IActionResult Completed()
+        public IActionResult Completed(int id)
         {
-            return View();
+            var order = repository.Find(id);
+            if(order ==  null)
+            {
+                return NotFound();
+            }
+            return View(order);
         }
     }
 }

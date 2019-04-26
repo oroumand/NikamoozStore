@@ -28,5 +28,7 @@ namespace NikamoozStore.Core.Domain.Orders
         public string PaymentId { get; set; }
         public DateTime? PaymentDate { get; set; }
         public bool Shipped { get; set; }
+
+       
     }
 }
