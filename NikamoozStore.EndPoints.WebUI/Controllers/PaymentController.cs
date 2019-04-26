@@ -35,10 +35,10 @@ namespace NikamoozStore.EndPoints.WebUI.Controllers
                 orderRepository.SetTransactionId(orderId, result.Token);
                 return Redirect($"{configuration["PayIr:PaymentUrl"]}{result.Token}");
             }
-            return View(result);
+            return View("PaymentError", result);
         }
 
-        public IActionResult Verify(RequestPaymentResult result)
+        public IActionResult Verify(PaymentResult result)
         {
             if (result.IsCorrect)
             {
@@ -51,7 +51,7 @@ namespace NikamoozStore.EndPoints.WebUI.Controllers
 
 
             }
-            return View(result);
+            return View("PaymentError",result);
 
         }
     }

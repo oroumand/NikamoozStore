@@ -4,8 +4,7 @@ using System.Text;
 
 namespace NikamoozStore.Core.Domain.Payments
 {
-
-    public class RequestPaymentResult
+    public abstract class BankRequestResult
     {
         public int Status { get; set; }
         public string Token { get; set; }
@@ -14,7 +13,14 @@ namespace NikamoozStore.Core.Domain.Payments
 
         public bool IsCorrect => Status == 1;
     }
+    public class RequestPaymentResult: BankRequestResult
+    {
 
+    }
+    public  class PaymentResult: BankRequestResult
+    {
+
+    }
     public class VerifyPayemtnResult
     {
         public int Status { get; set; }
