@@ -10,5 +10,6 @@ namespace NikamoozStore.Core.Contracts.Products
         int TotalCount(string category);
         List<Product> GetProducts(string category,int pageSize = 4, int pageNumber = 1);
         Product Find(int productId);
+        void Add(Product product);
     }
 }

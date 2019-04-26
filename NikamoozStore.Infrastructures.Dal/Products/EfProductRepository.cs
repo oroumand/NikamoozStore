@@ -16,6 +16,12 @@ namespace NikamoozStore.Infrastructures.Dal.Products
             _ctx = ctx;
         }
 
+        public void Add(Product product)
+        {
+            _ctx.Products.Add(product);
+            _ctx.SaveChanges();
+        }
+
         public Product Find(int productId)
         {
             return _ctx.Products.Find(productId);

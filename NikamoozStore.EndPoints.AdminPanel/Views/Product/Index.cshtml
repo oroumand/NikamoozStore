@@ -1,0 +1,17 @@
+﻿@model List<NikamoozStore.Core.Domain.Products.Product>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductID</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+</table>
