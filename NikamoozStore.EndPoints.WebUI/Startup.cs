@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NikamoozStore.Core.Contracts.Categories;
 using NikamoozStore.Core.Contracts.Products;
+using NikamoozStore.EndPoints.WebUI.Models.Carts;
 using NikamoozStore.Infrastructures.Dal.Categories;
 using NikamoozStore.Infrastructures.Dal.Commons;
 using NikamoozStore.Infrastructures.Dal.Products;
@@ -31,6 +32,8 @@ namespace NikamoozStore.EndPoints.WebUI
             services.AddSession();
             services.AddScoped<ProductRepository, EfProductRepository>();
             services.AddScoped<CategoryRepository, EfCategoryRepository>();
+            services.AddScoped(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
